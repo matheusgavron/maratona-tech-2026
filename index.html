@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudante360</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+<aside class="hidden md:flex fixed inset-y-0 left-0 w-64 flex-col p-4 border-r" style="background:var(--s1);border-color:var(--ln)">
+  <div class="flex items-center gap-2 px-2 py-3 mb-4">
+    <div class="w-9 h-9 rounded-xl grid place-items-center dsp font-extrabold" style="background:var(--g);color:#03130a">360</div>
+    <div class="dsp font-bold text-lg">Estudante360</div>
+  </div>
+  <nav id="sideNav" class="space-y-1"></nav>
+  <div class="mt-auto inset p-3">
+    <div class="flex items-center gap-3 mb-3">
+      <span id="avS" class="text-3xl"></span>
+      <div class="min-w-0"><div id="nkS" class="font-bold truncate"></div><div id="lvS" class="lbl"></div></div>
+    </div>
+    <div class="bar"><i id="xbS" style="background:var(--g)"></i></div>
+    <div id="xpS" class="lbl mt-1"></div>
+  </div>
+</aside>
+
+<nav id="botNav" class="md:hidden fixed bottom-0 inset-x-0 z-20 flex justify-around p-1.5 border-t" style="background:var(--s1);border-color:var(--ln)"></nav>
+
+<main class="md:ml-64 p-4 md:p-8 pb-24 max-w-5xl">
+<div class="flex items-end justify-between mb-6 gap-3">
+  <div><h1 id="pgT" class="text-2xl md:text-3xl font-extrabold"></h1><p id="pgS" class="mu text-sm mt-1"></p></div>
+  <div class="flex gap-2 shrink-0"><span class="chip" title="Dias seguidos">🔥 <b id="stk">0</b> dias</span><span class="chip !border-[var(--g)] !text-[var(--g)]">⭐ <b id="xpT">0</b> XP</span></div>
+</div>
+
+<!-- PAINEL -->
+<section id="dash" class="view space-y-4">
+  <div id="alerts" class="space-y-2"></div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="kpis"></div>
+  <div class="grid md:grid-cols-5 gap-4">
+    <div class="card md:col-span-3">
+      <h2 class="font-bold mb-1">Radar de confiança</h2>
+      <p class="lbl mb-2">Quanto mais perto da borda, mais seguro você está na matéria.</p>
+      <svg id="radar" viewBox="0 0 320 300" class="w-full max-w-md mx-auto"></svg>
+    </div>
+    <div class="card md:col-span-2">
+      <h2 class="font-bold mb-3">Termômetro de risco</h2>
+      <div id="subjects" class="space-y-3"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2 class="font-bold mb-3">Próximas provas</h2>
+    <div class="grid sm:grid-cols-4 gap-2 mb-3"><select id="exSub"></select><input id="exDate" type="date"><input id="exNote" placeholder="Conteúdo (opcional)"><button class="btn" onclick="addExam()">Adicionar prova</button></div>
+    <ul id="exams" class="space-y-2 text-sm"></ul>
+  </div>
+</section>
+
+<!-- FOCO -->
+<section id="foco" class="view">
+  <div class="grid md:grid-cols-5 gap-4">
+    <div class="card md:col-span-3 text-center">
+      <div class="flex flex-wrap justify-center gap-2 mb-5" id="durs"></div>
+      <div class="relative w-64 h-64 mx-auto">
+        <svg viewBox="0 0 100 100" class="w-full h-full -rotate-90"><circle cx="50" cy="50" r="45" fill="none" stroke="#1a2b23" stroke-width="5"/><circle id="ring" cx="50" cy="50" r="45" fill="none" stroke="#22c55e" stroke-width="5" stroke-linecap="round" stroke-dasharray="282.7" stroke-dashoffset="0"/></svg>
+        <div class="absolute inset-0 grid place-content-center"><div id="clock" class="dsp text-5xl font-extrabold tabular-nums">25:00</div><div id="fSubL" class="lbl mt-1"></div></div>
+      </div>
+      <div class="max-w-xs mx-auto mt-5"><label class="lbl block text-left mb-1">Matéria da sessão</label><select id="fSub"></select></div>
+      <p id="focoMsg" class="h-6 mt-3 text-sm mu"></p>
+      <button id="focoBtn" class="btn w-full max-w-xs mt-1" onclick="toggleFoco()">Iniciar foco</button>
+    </div>
+    <div class="card md:col-span-2">
+      <h2 class="font-bold mb-3">Como funciona</h2>
+      <ul class="text-sm mu space-y-2 mb-5"><li>Concluir uma sessão sem sair da tela rende 2 XP por minuto.</li><li>Trocar de aba ou desistir cancela a sessão sem XP.</li><li>Estudar todo dia aumenta sua sequência.</li></ul>
+      <h3 class="font-bold text-sm mb-2">Últimas sessões</h3>
+      <ul id="hist" class="space-y-2 text-sm"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- CADERNO -->
+<section id="cad" class="view">
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="card">
+      <h2 class="font-bold mb-3">Fórmulas</h2>
+      <div class="grid grid-cols-2 gap-2 mb-2"><input id="fNome" placeholder="Nome da fórmula"><select id="fSb"></select></div>
+      <input id="fForm" placeholder="Ex.: Δ = b² − 4ac" class="mb-2">
+      <button class="btn w-full mb-3" onclick="addF()">Salvar fórmula</button>
+      <input id="fBusca" placeholder="Buscar fórmula" oninput="renderCad()" class="mb-3">
+      <ul id="fList" class="space-y-2 text-sm"></ul>
+    </div>
+    <div class="card">
+      <h2 class="font-bold mb-3">Caderno de erros</h2>
+      <div class="grid grid-cols-2 gap-2 mb-2"><select id="eSub"></select><input id="eTopic" placeholder="Tópico que errou"></div>
+      <button class="btn w-full mb-3" onclick="addE()">Registrar erro</button>
+      <ul id="eList" class="space-y-2 text-sm mb-4"></ul>
+      <button class="btn2 w-full" style="border-color:var(--g);color:var(--g)" onclick="micro()">Começar micro-treino</button>
+      <div id="micro" class="mt-3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- IA -->
+<section id="ia" class="view">
+  <div class="card flex flex-col" style="height:calc(100vh - 220px);min-height:420px">
+    <div id="chat" class="flex-1 overflow-y-auto space-y-3 pr-1"></div>
+    <div class="flex flex-wrap gap-2 my-3" id="sugs"></div>
+    <div class="flex gap-2"><input id="msg" placeholder="Pergunte sobre qualquer matéria" onkeydown="if(event.key==='Enter')send()"><button class="btn" onclick="send()">Enviar</button></div>
+  </div>
+</section>
+
+<!-- RANKING -->
+<section id="rank" class="view space-y-4">
+  <div class="flex gap-2"><button class="chip" id="tM" onclick="setScope('mun')">Municipal</button><button class="chip" id="tE" onclick="setScope('est')">Estadual</button></div>
+  <div id="podium" class="grid grid-cols-3 gap-3 items-end"></div>
+  <div class="card"><ol id="rankList" class="space-y-2"></ol></div>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="card">
+      <h3 class="font-bold mb-3">Seu perfil anônimo</h3>
+      <div id="avPick" class="flex flex-wrap gap-2 mb-3 text-2xl"></div>
+      <div class="flex gap-2"><input id="nickIn" maxlength="16" placeholder="Seu apelido"><button class="btn" onclick="saveNick()">Salvar</button></div>
+    </div>
+    <div class="card" style="border-color:rgba(34,197,94,.4)">
+      <h3 class="font-bold mb-2" style="color:var(--g)">Privacidade protegida (LGPD)</h3>
+      <p class="text-sm mu">O ranking mostra apenas apelidos e avatares criados pelos próprios estudantes. Nomes reais, notas individuais e dados pessoais nunca são exibidos nem compartilhados.</p>
+    </div>
+  </div>
+</section>
+<p class="mt-8"><button class="lbl underline" onclick="if(confirm('Restaurar os dados de demonstração?')){localStorage.removeItem('e360v2');location.reload()}">Restaurar dados de demonstração</button></p>
+</main>
+<div id="toast" class="fixed top-5 right-5 z-50 px-4 py-3 rounded-xl font-bold hidden" style="background:var(--g);color:#03130a;box-shadow:0 8px 30px rgba(34,197,94,.35)"></div>
+</body>
+</html>
